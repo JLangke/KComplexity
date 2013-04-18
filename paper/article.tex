@@ -1,5 +1,9 @@
 \documentclass[11pt]{article}
 
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage[letterpaper]{geometry}
+
 \title{Measuring the Complexity of All the Art}
 \author{Jonathan Langke and Peter Boothe}
 \date{\today}
@@ -15,9 +19,130 @@ our generation strategy as well as the results of our online survey.
 \end{abstract}
 
 \section{Introduction}
-\section{Generating The Art}
+
+Art has many definitions, but the one we will use here is that a piece of black
+and white digital art is a matrix where every entry is either true or false.
+An artwork can be generated from a mathematical formula that evalutes to a
+boolean and involves integers $x$ and $y$.  For our initial study, we
+considered only 2x2 matrices, because there are only $2^{2\cdot2} = 16$ of
+them, and they could therefore be exhaustively generated.
+
+The Kolmogorov Complexity or program-size complexity of a particular object is
+the size of the smallest program which outputs that object.  This allows us to
+talk about the complexity (and randomness) of individual items.  Kolmogorov
+complexity is, unfortunately, uncomputable.  It is, however, recursively
+enumerable (RE).  Therefore, we can enumerate all well-typed expressions and
+evaluate them on multiple inputs.  The size of the smallest expression which
+outputs that object is then its Kolmogorov complexity!
+
+Our algorithm to generate all the art, and keep track of its Kolmogorov
+Complexity is as follows: Enumerate all well-typed programs of size 1.  For
+each enumerated formula, generate its corresponding artwork.  If this artwork
+has not been previously generated, then it has Kolmogorov complexity 1.  Next,
+we repeat for size 2, 3, 4, etc., until we have managed to generate all
+possible 2x2 artworks.  To do this, however, we must first define what we mean
+by a ``well-typed program''.
+
+A program is well-typed if the inputs types of the functions match the type of those function's arguments.  An example of an ill-typed program is {\tt (+ false 3)}, whereas a well-typed program is {\tt (+ 3 x)}.  We further require that the overall type of our program be {\tt (int, int) -> bool}.  An example of such an expression is {\tt ($\lambda$ (x y) (< x y))}, which is an expression with two inputs, which evalutes to either true or false.
+
+Further, we also need to define our programming language.  Our language is constructed out of the atoms {\tt < + * x y 1 0 and or not true false}.  With this description, we use MiniKanren, a logic programming system for Racket, to generate a list of all well-typed programs in order of size.
+
+\subsection{Racket/MiniKanren}
+
+To fully understand the power of Racket and MiniKanren one needs to understand 
+how it is that Logic Languages operate. MiniKanren (like any logic language) is
+used to satisfy relationships specified by the user. In our application this was used
+to generate all formulae up to a particular size(in symbols) and then produce the
+corresponding pictorial output (depicted below). 
+
+% Need to move PNGs here I think but other than that good segway into concretizing
+% The concept
+
+\subsection{Example}
+\begin{figure}
+\begin{center}
+\begin{tabular}{r | p{2in}   p{2in}}
+Expression & (x $<$ y) &
+(((1 + (1 + 1)) $<$  (x * y)) and 
+          ((x + 1) $<$ (y * (1 + 1)))) \\
+Expression Size & 3 symbols & 19 symbols\\
+  Artwork & \includegraphics[width=1.5in]{../presentation/simple.png} &
+  \includegraphics[width=1.5in]{../presentation/complex.png} \\
+Kolmogorov Complexity& 3 &
+19
+\end{tabular}
+\end{center}
+
+\caption{Two artworks of differing Kolmogorov Complexity}
+\end{figure}
+
+
+\section{Generating The Art}{
+
+After generating all the formulae to a particular size the next step in our Algorithm is
+to generate all the art corresponding to each formulae as depicted in the example seen
+previously. When we where able to produce all the 2x2 art we where able to garner alot of
+insight into the interrelatedness of the different artwork.
+
+\subsection{All the 2x2 Art}
+\begin{figure}
+\begin{center}
+\begin{tabular}{r c l}
+Formulae & Level & Pictures \\
+\tiny{none} & 0 & empty \\
+\tiny{(true), (false)} & 1 &
+    \includegraphics[width=.25in]{../presentation/2x2/Shape1LVL1.png}~
+    \includegraphics[width=.25in]{../presentation/2x2/Shape2LVL1.png} \\
+\tiny{none} & 2 & empty \\
+\tiny{($<$ x 1), ($<$ y 1), ($<$ x y), ($<$ 0 x), ($<$ 0 y), ($<$ y x)} & 3 & 
+    \includegraphics[width=.25in]{../presentation/2x2/Shape1LVL3.png}~
+    \includegraphics[width=.25in]{../presentation/2x2/Shape2LVL3.png}~
+    \includegraphics[width=.25in]{../presentation/2x2/Shape5LVL3.png}~
+    \includegraphics[width=.25in]{../presentation/2x2/Shape6LVL3.png}~
+    \includegraphics[width=.25in]{../presentation/2x2/Shape3LVL3.png}~
+    \includegraphics[width=.25in]{../presentation/2x2/Shape4LVL3.png}\\
+\tiny{(not (x $<$ y)), (not (y $<$ x))} & 4 & 
+    \includegraphics[width=.25in]{../presentation/2x2/Shape2LVL4.png}~
+    \includegraphics[width=.25in]{../presentation/2x2/Shape1LVL4.png} \\
+\tiny{((y + x) $<$ 1), ((y * x) $<$ 1), (0 $<$ (y + x)), (1 $<$ (y + x))} & 5 & 
+    \includegraphics[width=.25in]{../presentation/2x2/Shape2LVL5.png}~
+    \includegraphics[width=.25in]{../presentation/2x2/Shape1LVL5.png}~
+    \includegraphics[width=.25in]{../presentation/2x2/Shape3LVL5.png}~
+    \includegraphics[width=.25in]{../presentation/2x2/Shape4LVL5.png} \\
+\tiny{none} & 6 & empty \\
+\tiny{((y $<$ x) or (x $<$ y))} & 7 &
+    \includegraphics[width=.25in]{../presentation/2x2/Shape1LVL7.png}\\
+\tiny{(not ((y $<$ x) or (x $<$ y)))} & 8 &
+    \includegraphics[width=.25in]{../presentation/2x2/Shape1LVL8.png}
+\end{tabular}
+\end{center}
+
+\caption{All the 2x2 art with its corresponding complexity.}
+\end{figure}
+
+
+The associations seen in levels 3-5 and comparing the one seen in level 7 and 8 allowed us
+insight and we began to think about Visual Complexity and it's relation to KC.
+
+% Discuss why theres none @ 2 and 6?
+
+
+
+\subsection{Beginning to Associate Percieved Visual and Kolmogorov Complexity}
+
+At this point we began to wonder if visual and Kolmogorov complexity
+was in any way correlated. We thought about different strategies in order to collect 
+unbiased data and decided to implement the data collection in the following way:
+
+%Web Design Plan Section <---- Discuss how its unbiased perhaps also?
+
+}
+
 \section{Assessing Visual Complexity}
+
 \section{Results}
+
 \section{Future Work}
 
 \end{document}
+
