@@ -77,11 +77,11 @@ Kolmogorov Complexity& 3 &
 \end{figure}
 
 
-\section{Generating The Art}{
+\section{Generating The Art}
 
-After generating all the formulae to a particular size the next step in our Algorithm is
+After generating all the formulae to a particular size the next step in our algorithm is
 to generate all the art corresponding to each formulae as depicted in the example seen
-previously. When we where able to produce all the 2x2 art we where able to garner alot of
+previously. When we where able to produce all the 2x2 art we where able to garner a lot of
 insight into the interrelatedness of the different artwork.
 
 \subsection{All the 2x2 Art}
@@ -110,40 +110,64 @@ Formulae & Level & Pictures \\
     \includegraphics[width=.25in]{../presentation/2x2/Shape3LVL5.png}~
     \includegraphics[width=.25in]{../presentation/2x2/Shape4LVL5.png} \\
 \tiny{none} & 6 & empty \\
-\tiny{(($<$ y  x) or ($<$ x  y))} & 7 &
+\tiny{(or ($<$ y  x) ($<$ x  y))} & 7 &
     \includegraphics[width=.25in]{../presentation/2x2/Shape1LVL7.png}\\
-\tiny{(not (($<$ y  x) or ($<$ x  y)))} & 8 &
+\tiny{(not (or ($<$ y  x) ($<$ x  y)))} & 8 &
     \includegraphics[width=.25in]{../presentation/2x2/Shape1LVL8.png}
 \end{tabular}
 \end{center}
 
 \caption{All the 2x2 art with its corresponding complexity.}
+\label{fig:2x2}
 \end{figure}
 
+From Figure~\ref{fig:2x2}, some things are immediately obvious.  First of all,
+as might match one's intuition, the all-black and all-white pictures are the
+least complex pictures.  Secondly, one can see that if a formula of size $n$
+exists to create a certain picture, then that picture's inverse has a
+complexity of one of $n-1$, $n$, or $n+1$.  Examples of this last phenomenon
+can be seen between rows 7 and 8, as well as between rows 3 and 4.  This occurs
+for the simple reason that adding one symbol ({\tt not}) creates a picture's
+inverse.  Also, somewhat intriguingly, we can see gaps at 2 and 6.  Although
+there are formulae of size 2, none of those formulae produce a picture that has
+not been already produced by formulae of a smaller size.
 
-The associations seen in levels 3-5 and comparing the one seen in level 7 and 8 allowed us
-insight and we began to think about Visual Complexity and it's relation to KC.
-
-% Discuss why theres none @ 2 and 6?
-
-
-
-\subsection{Beginning to Associate Percieved Visual and Kolmogorov Complexity}
-
-At this point we began to wonder if visual and Kolmogorov complexity
-was in any way correlated. We thought about different strategies in order to collect 
-unbiased data and decided to implement the data collection in the following way:
-
-%Web Design Plan Section <---- Discuss how its unbiased perhaps also?
-
-}
+Seeing all of the pictures, our hypothesis becomes a bit more obvious: What is
+the correlation between visual complexity (an inherently subjective notion) and
+Kolmogorov complexity?  
 
 \section{Assessing Visual Complexity}
 
+We constructed two websites that asked visitors to choose which of two images
+they found to be of greater visual complexity.  One website asked about all the
+2x2 art, and the other asked about all of the 3x3 art.  Both such sizes are
+small enough to completely enumerate (there are 16 and 512 artworks in each
+respective category) as well as small enough to calculate the Kolmogorov
+complexity of each artwork.
+
+We then asked users on Twitter as well as local campus students to repeatedly
+assess which of two images they found more visually complex.  We treated each
+assessment as if it were a competition between two players (artwork one vs
+artwork two), and when the user decided upon a winner, we used the TrueSkill
+algorithm to update each artwork's relative complexity based on each match's
+results.
+
 \section{Results}
 
-\section{Future Work}
+% a scatterplot of "measured visual complexity" vs "Kolmogorov complexity"
 
+\section{Summary and Future Work}
+
+We recursively enumerated something that, while R.E., is seldom actually
+enumerated, and found the actual Kolmogorov complexity of a large set of very
+small artworks.  We then asked a self-selected set of people to assess the
+visual complexity of the artworks.  We found a nice relationship between
+perceived visual complexity and Kolmogorov complexity, but our results suffer
+from ``the law of small numbers''\cite{smallnumbers}.
+
+Anybody interested in reproducing or extending our results is encouraged to
+fork our repository on GitHub and use the code however you see fit.  Extending
+our results to larger artworks would, in particular, be quite interesting.  
 \end{document}
 
 
