@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Visual complexity</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+<script type="text/javascript">
+var randID = function (forbiddenNumber) {
+	if (typeof forbiddenNumber === "undeclared") {
+		forbiddenNumber = -1;
+	}
+
+	var num = Math.floor(Math.random() * 512);
+	while (num === forbiddenNumber) {
+		num = Math.floor(Math.random() * 512);
+	}
+
+	return num;
+};
+
+var leftID = randID();
+var rightID = randID(leftID);
+
+var resetGame = function (message) {
+	if (typeof message === "undeclared") {
+		message = "";
+	}
+
+	leftID = randID();
+	rightID = randID(leftID);
+
+	render();
+};
+
+var bitName = function(num, bit) {
+	if ((num >> bit) & 1 === 1) {
+		return "one";
+	} else {
+		return "zero";
+	}
+}
+
+var drawNumber = function(num) {
+	var s = "";
+	for (var x = 0; x < 3; x++) {
+		s += "<tr>";
+		for (var y = 0; y < 3; y++) {
+			s += "<td class=\"" + bitName(num, 3*x + y) + "\">";
+		}
+	}
+	return "<table class=\"picture\">"+s+"</table>";
+}
+
+var render = function () {
+	$("#left").html(drawNumber(leftID));
+	$("#right").html(drawNumber(rightID));
+	$("#leftID").html(leftID);
+	$("#rightID").html(rightID);
+};
+
+var vote = function(winner, loser) {
+	$.ajax({
+		url: "vote.cgi", 
+		data: {
+			winner: winner,
+			loser: loser
+		},
+		success: function (data) { 
+			data = eval("(" + data + ")");
+			//alert("Winner rating:" + data.winnerrating);
+		}
+	});
+};
+
+$(document).ready(function () {
+	render();
+	$("#left").click(function () { vote(leftID, rightID); resetGame(); });
+	$("#right").click(function () { vote(rightID, leftID); resetGame(); });
+});
+</script>
+</head>
+<body>
+
+<h1>Which picture looks more complex?</h1>
+
+<table id="canvas">
+<tr><td id="left"><td><td id="right">
+<tr><th id="leftID"><th><a href="http://cs.science.manhattan.edu/~peter/3x3survey/">Tie?</a><th id="rightID">
+</table>
+
+<div id="description">
+We have calculated the Kolmogorov Complexity of every 3x3 artwork.  Our
+hypothesis is that Kolmogorov Complexity is related to visual complexity
+&mdash; which is the fuzzy notion we have of one image being more &ldquo;complex looking&rdquo; than another.  For each of the images presented, please click on the one that is, in your opinion, more visually complex.  
+</div>
+</body>
+</html>
