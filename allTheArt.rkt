@@ -126,8 +126,8 @@
 
 
 ; THIS IS WHERE WE DECIDE HOW BIG THE 2-D PATTERNS ARE
-(define width 2)
-(define height 2)
+(define width 3)
+(define height 3)
 
 
 ; Finds the bit-pattern for a given function on the specified grid
@@ -216,12 +216,12 @@
     
     (define patterns-to-progs-and-ints (map take-the-pattern-and-int patterns-and-progs-to-ints))
     (define smallest-program-hash (make-hash patterns-to-progs-and-ints))
-    (hash-map smallest-program-hash (λ (k v) (list (int-to-image k) v)))))
+    (hash-map smallest-program-hash (λ (k v) (list (int-to-image k) k v)))))
 
 
 ; patterns will be a list containing all the length*width patterns up to the given size
 (define patterns
-  (build-dict-up-to 8))
+  (build-dict-up-to 11))
 
 ; Display it, and display how many
 patterns
