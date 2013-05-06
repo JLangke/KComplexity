@@ -260,4 +260,3 @@
 12 221 (or (< (+ 1 y) x) (not (< y (* x x))))
 13 211 (not (or (< 1 x) (and (< x y) (not (< 1 y)))))
 13 61 (not (or (< 1 y) (and (< y x) (not (< 1 x)))))
-

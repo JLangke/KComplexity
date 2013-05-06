@@ -25,4 +25,5 @@ for i in range(512):
 
 data.sort()
 for mu, i, sigma in data:
-	print stringify(i), i, mu, sigma
+	#print stringify(i), i, mu, sigma
+	print i, mu, sigma

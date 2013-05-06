@@ -221,7 +221,7 @@
 
 ; patterns will be a list containing all the length*width patterns up to the given size
 (define patterns
-  (build-dict-up-to 11))
+  (build-dict-up-to 3))
 
 ; Display it, and display how many
 patterns
