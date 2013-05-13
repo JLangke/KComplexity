@@ -4,16 +4,17 @@ def lg(x): return log(x) / log(2)
 def varies(prog):
 	return "x" in prog or "y" in prog
 
-def genAll(size, t):
+def genAll(size, t, notsOk=True):
 	if size <= 0: return
 	if t == 'bool':
 		if size == 1:
 			yield "#t"
 			yield "#f"
 		else:
-			for x in genAll(size-1, "bool"):
-				if varies(x) and not x.startswith("(not"):
-					yield "(not " + x + ")"
+			if notsOk:
+				for x in genAll(size-1, "bool", notsOk=False):
+					if varies(x):
+						yield "(not " + x + ")"
 			for spl in range(1, size-1):
 				for left in genAll(spl, "bool"):
 					for right in genAll(size-1-spl, "bool"):
@@ -76,8 +77,11 @@ for line in open('data'):
 	size = int(size)
 	n = int(n)
 	numbers[n] = (size, prog)
+size += 1 #assume the data in 'data' is complete for each level
 
 rackets = [ start_racket() for i in range(7) ]
+
+size = 4
 
 while len(numbers) < 2**(width*height):
 	print "Generating size", size
