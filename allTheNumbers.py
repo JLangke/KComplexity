@@ -81,8 +81,6 @@ size += 1 #assume the data in 'data' is complete for each level
 
 rackets = [ start_racket() for i in range(7) ]
 
-size = 4
-
 while len(numbers) < 2**(width*height):
 	print "Generating size", size
 	count = 0
