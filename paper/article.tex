@@ -16,7 +16,7 @@
 \maketitle
 
 \begin{abstract}
-We define formula complexity based on a restriction of Kolmogorov complexity,
+We define formula complexity based on a restriction of formula complexity,
 and measure the formula complexity of all possible \twoxtwo\ and \threexthree\
 artworks.  We have also conducted a survey of the relative perceived visual
 complexity of these artworks, and we report that survey's results.  We end by
@@ -33,16 +33,16 @@ boolean and involves integers $x$ and $y$.  For our initial study, we
 considered only \twoxtwo\ matrices, because there are only $2^{2\cdot2} = 16$
 of them, and they could therefore be exhaustively generated.
 
-The Kolmogorov Complexity or program-size complexity of a particular object is
+The formula complexity or program-size complexity of a particular object is
 the size of the smallest program which outputs that object.  This allows us to
-talk about the complexity (and randomness) of individual items.  Kolmogorov
+talk about the complexity (and randomness) of individual items. Formula
 complexity is, unfortunately, uncomputable.  It is, however, recursively
 enumerable (RE).  Therefore, we can enumerate all well-typed expressions and
 evaluate them on multiple inputs.  The size of the smallest expression which
-outputs that object is then its Kolmogorov complexity!
+outputs that object is then its formula complexity!
 
-Our algorithm to generate all the art, and keep track of its Kolmogorov
-Complexity is as follows: Enumerate all well-typed programs of size 1.  For
+Our algorithm to generate all the art, and keep track of its formula
+complexity is as follows: Enumerate all well-typed programs of size 1.  For
 each enumerated formula, generate its corresponding artwork.  If this artwork
 has not been previously generated, then it has Kolmogorov complexity 1.  Next,
 we repeat for size 2, 3, 4, etc., until we have managed to generate all
@@ -69,7 +69,7 @@ Expression & (x $<$ y) &
 Expression Size & 3 symbols & 19 symbols\\
   Artwork & \includegraphics[width=1.5in]{../presentation/simple.png} &
   \includegraphics[width=1.5in]{../presentation/complex.png} \\
-Kolmogorov Complexity& 3 &
+Formula Complexity& 3 &
 19
 \end{tabular}
 \end{center}
