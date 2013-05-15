@@ -1,8 +1,12 @@
 \documentclass[11pt]{article}
 
+\usepackage{rotating}
 \usepackage{array}
 \usepackage{graphicx}
 \usepackage[letterpaper]{geometry}
+
+\newcommand{\twoxtwo}{$2\times2$}
+\newcommand{\threexthree}{$3\times3$}
 
 \title{Measuring the Complexity of All the Art}
 \author{Jonathan Langke and Peter Boothe}
@@ -12,20 +16,22 @@
 \maketitle
 
 \begin{abstract}
-We have measured (using Racket and MiniKanren) the Kolmogorov Complexity of all
-possible 2x2 and 3x2 artworks.  We have also conducted a survey of the relative
-perceived visual complexity of these artworks.  In this paper, we discuss both
-our generation strategy as well as the results of our online survey.
+We define formula complexity based on a restriction of Kolmogorov complexity,
+and measure the formula complexity of all possible \twoxtwo\ and \threexthree\
+artworks.  We have also conducted a survey of the relative perceived visual
+complexity of these artworks, and we report that survey's results.  We end by
+discussing the links between these two notions, and find that formula
+complexity does seem to be related to visual complexity.
 \end{abstract}
 
 \section{Introduction}
 
 Art has many definitions, but the one we will use here is that a piece of black
 and white digital art is a matrix where every entry is either true or false.
-An artwork can be generated from a mathematical formula that evalutes to a
+An artwork can be generated from a mathematical formula that evaluates to a
 boolean and involves integers $x$ and $y$.  For our initial study, we
-considered only 2x2 matrices, because there are only $2^{2\cdot2} = 16$ of
-them, and they could therefore be exhaustively generated.
+considered only \twoxtwo\ matrices, because there are only $2^{2\cdot2} = 16$
+of them, and they could therefore be exhaustively generated.
 
 The Kolmogorov Complexity or program-size complexity of a particular object is
 the size of the smallest program which outputs that object.  This allows us to
@@ -40,15 +46,15 @@ Complexity is as follows: Enumerate all well-typed programs of size 1.  For
 each enumerated formula, generate its corresponding artwork.  If this artwork
 has not been previously generated, then it has Kolmogorov complexity 1.  Next,
 we repeat for size 2, 3, 4, etc., until we have managed to generate all
-possible 2x2 artworks.  To do this, however, we must first define what we mean
-by a ``well-typed program''.
+possible \twoxtwo\ artworks.  To do this, however, we must first define what we
+mean by a ``well-typed program''.
 
 A program is well-typed if the inputs types of the functions match the type of
 those function's arguments.  An example of an ill-typed program is {\tt (+
 false 3)}, whereas a well-typed program is {\tt (+ 3 x)}.  We further require
 that the overall type of our program be {\tt (int, int) -> bool}.  An example
 of such an expression is {\tt ($\lambda$ (x y) (< x y))}, which is an
-expression with two inputs, which evalutes to either true or false.
+expression with two inputs, which evaluates to either true or false.
 
 Further, we also need to define our programming language.  Our language is
 constructed out of the atoms {\tt < + * x y 1 0 and or not true false}.
@@ -68,27 +74,33 @@ Kolmogorov Complexity& 3 &
 \end{tabular}
 \end{center}
 
-\caption{Two artworks of differing Kolmogorov Complexity}
+\caption{Two artworks of differing formula complexity}
 \end{figure}
 
 \input{assessingformula.tex}
 \input{assessingvisual.tex}
 
-\section{Compined Results}
+\section{Combined Results}
 
-% a scatterplot of "measured visual complexity" vs "Kolmogorov complexity"
+% a scatterplot of "measured visual complexity" vs "formula complexity"
 Scatterplot goes here along with more discussion.
 
 \section{Summary and Future Work}
 
-We recursively enumerated something that, while R.E., is seldom actually
-enumerated, and found the actual fromula complexity of a large set of very
-small artworks.  We then asked a self-selected set of people to assess the
-visual complexity of the artworks.  We found a nice relationship between
-perceived visual complexity and Kolmogorov complexity, but our results suffer
-from ``the law of small numbers''\cite{smallnumbers}.
+We defined a notion of formula complexity, which served as a ``low power''
+version of Kolmogorov complexity.  We enumerated all well-typed formulae to
+discover the formula complexity of a large set of very small artworks.  We then
+asked a self-selected set of people to assess the visual complexity of the
+artworks.  We found a nice relationship between perceived visual complexity and
+formula complexity, but our results suffer from ``the law of small
+numbers''\cite{smallnumbers}.
 
 Anybody interested in reproducing or extending our results is encouraged to
 fork our repository on GitHub and use the code however you see fit.  Extending
-our results to larger artworks would, in particular, be quite interesting.  
+our results to larger artworks would, in particular, be quite interesting.
+Discovering what languages have formula complexity that best matches the
+perceived visual complexity would also be quite interesting, as it would
+suggest (and perhaps help explicate) a deep link between complexity of
+perception and complexity of computation.  
+
 \end{document}
