@@ -1,12 +1,10 @@
 
-
-The natural extension of our exploration of all the 2x2 artwork and the structure within the set of 2x2 artwork as a whole is the following question. What is the correlation between visual complexity (an inherently subjective notion) and
-Formula complexity?  
-
 \section{Formula Complexity}
-Formula complexity is a ``low-powered'' version of Kolmogorov Complexity.  KC
+\label{sec:formula}
+
+Formula complexity is a ``low-powered'' version of Kolmogorov complexity\footnote{The standard text for Kolmogorov complexity is Li and Vitanyi\cite{Li}}.  Kolmogorov complexity
 allows the full power of a programming language to be put to bear in describing
-how an output is produced.  In particular, KC allows for the definition and
+how an output is produced.  In particular, Kolmogorov complexity allows for the definition and
 application of functions as well as conditional statements.  In our language,
 the only things which can be used are formulae with a boolean result
 involving only the logical atoms {\tt and}, {\tt or}, {\tt not}, {\tt true},
@@ -18,7 +16,7 @@ formula represents a terminating program.  Even more, since the domain of all
 of the operators is total, this means that every well-typed formula represents
 a non-crashing program\footnote{This is why the division and modulus operators
 were excluded, as {\tt 12 mod 0} and {\tt 12 / 0} result in a crashing program
-rather than a value.}.  Thus, in exchange for ``powering down'' KC, we can
+rather than a value.}.  Thus, in exchange for ``powering down'' Kolmogorov complexity, we can
 actually enumerate and test all formulae, without worrying about infinite loops
 or crashes.
 
