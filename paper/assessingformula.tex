@@ -79,4 +79,14 @@ or crashes.
 
 Formula complexity is an inherent attribute of an output. 
 It is defined as the size of the smallest formula able to produce the output in question. 
+
 % Say how we produce an output from a formula
+
+Producing an output from a formula starts with generating the formula in python. After
+that python transfers the formula to racket and performs a number of translations on the original formula in
+order to produce the final output.
+The final output consists of a pattern a program and a complexity.
+The pattern is the pictorial output.
+The program is the formula that we started with.
+The complexity (formula) is the record of the smallest possible formula size that could produce the pictorial output.
+
