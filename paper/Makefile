@@ -15,3 +15,6 @@ article.pdf: article.tex assessingformula.tex assessingvisual.tex 3x3table.tex 3
 
 3x3correlation.tex: correlationCoefficient.py 3x3.dat
 	python correlationCoefficient.py > $@
+
+clean:
+	rm -f 3x3correlation.tex 3x3.dat 3x3scatter.pdf 3x3table.tex article.aux article.bbl article.blg article.log article.out article.pdf fit.log
