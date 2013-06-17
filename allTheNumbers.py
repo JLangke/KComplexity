@@ -99,14 +99,14 @@ while len(numbers) < 2**(width*height):
 		print >>rackets[count % len(rackets)].stdin, "(tf-fn-to-number (program-to-procedure '(lambda (x y)", prog + ")))"
 		count += 1
 
-	for i in range(0, count % len(rackets)):
-		p = rackets[i]
-		out = int(p.stdout.readline().split()[-1])
-		if out not in numbers:
-			numbers[out] = (size, p.prog)
-			print size, out, p.prog
-		
-	size += 1
+		for i in range(0, count % len(rackets)):
+			p = rackets[i]
+			out = int(p.stdout.readline().split()[-1])
+			if out not in numbers:
+				numbers[out] = (size, p.prog)
+				print size, out, p.prog
+			
+		size += 1
 
 for p in rackets:
 	print >>p.stdin, "(exit)"
