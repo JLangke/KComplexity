@@ -72,12 +72,13 @@ def start_racket():
 	return p
 
 numbers = {}
-for line in open('data'):
-	size, n, prog = line.split(" ", 2)
-	size = int(size)
-	n = int(n)
-	numbers[n] = (size, prog)
-size += 1 #assume the data in 'data' is complete for each level
+#for line in open('data'):
+	#size, n, prog = line.split(" ", 2)
+	#size = int(size)
+	#n = int(n)
+	#numbers[n] = (size, prog)
+#size += 1 #assume the data in 'data' is complete for each level
+size = 1
 
 rackets = [ start_racket() for i in range(7) ]
 
@@ -87,7 +88,9 @@ while len(numbers) < 2**(width*height):
 	for prog in genAll(size, "bool"):
 		if count % 100000 == 0:
 			print count
-			pass
+
+		# Every numProcs trips through the loop, drain each
+		# communication channel
 		if 0 == (count % len(rackets)) and count != 0:
 			for p in rackets:
 				out = int(p.stdout.readline().split()[-1])
@@ -95,18 +98,21 @@ while len(numbers) < 2**(width*height):
 					numbers[out] = (size, p.prog)
 					print size, out, p.prog
 				
+		# Put the current program in the next channel in line
 		rackets[count % len(rackets)].prog = prog
 		print >>rackets[count % len(rackets)].stdin, "(tf-fn-to-number (program-to-procedure '(lambda (x y)", prog + ")))"
 		count += 1
 
-		for i in range(0, count % len(rackets)):
-			p = rackets[i]
-			out = int(p.stdout.readline().split()[-1])
-			if out not in numbers:
-				numbers[out] = (size, p.prog)
-				print size, out, p.prog
-			
-		size += 1
+	# Drain the remaining programs in case the number of generated programs
+	# for a given size is not 0 mod the number of processors
+	for i in range(0, count % len(rackets)):
+		p = rackets[i]
+		out = int(p.stdout.readline().split()[-1])
+		if out not in numbers:
+			numbers[out] = (size, p.prog)
+			print size, out, p.prog
+		
+	size += 1
 
 for p in rackets:
 	print >>p.stdin, "(exit)"
