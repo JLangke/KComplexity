@@ -1,3 +1,9 @@
+bridges_article.pdf: bibliography.bib bridges_article.tex 3x3table.tex 3x3scatter.pdf
+	pdflatex bridges_article
+	bibtex bridges_article
+	pdflatex bridges_article
+	pdflatex bridges_article
+
 article.pdf: article.tex assessingformula.tex assessingvisual.tex 3x3table.tex 3x3scatter.pdf 3x3correlation.tex bibliography.bib
 	pdflatex article
 	bibtex article

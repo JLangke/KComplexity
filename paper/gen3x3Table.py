@@ -13,8 +13,10 @@ print "FC & Artworks \\\\"
 print "\\hline"
 for i in range(1, max([k for k in data]) + 1):
 	print i, "&",
+	sys.stdout.write("\\reflectbox{\\rotatebox[origin=c]{180}{")
 	for n in data[i]:
 		sys.stdout.write("\\includegraphics[width=.06in]{3x3pics/%d.png}\\hspace{1pt}" % n)
+	sys.stdout.write("}}")
 	print "\\\\"
 
 print "$\ge$", max([k for k in data]) + 1, "&",
