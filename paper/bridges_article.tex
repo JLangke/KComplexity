@@ -24,7 +24,6 @@
 
 \date{}
 
-
 \bibliographystyle{plain}
 
 %% Set the indentation at the start of paragraphs.
@@ -34,7 +33,7 @@
 %% that there should be a space, but I find paragraphs hard to read
 %% without it.  I'm inserting a small space that you may choose to
 %% modify.
-\setlength{\parskip}{.75ex}
+\setlength{\parskip}{.65ex}
 
 \begin{document}
 \maketitle
@@ -60,7 +59,7 @@ computers and humans largely agree on the complexity of small artworks!
 We compare the complexity of small artworks from two perspectives: that of a
 computer, and that of a human.  To do this in a principled manner we define our
 artworks, define our notion of complexity for computers, and describe how we
-measured visual complexity for people.  We procede through each task in turn,
+measured visual complexity for people.  We proceed through each task in turn,
 one per section, before bringing our computer and human results
 together and describing future work in the last sections.
 
@@ -85,19 +84,23 @@ function of type {\tt int$\times$int$\to$bool}.
 \begin{center}
 \includegraphics[width=5in]{monalisa_mono.jpg}
 \end{center}
-\caption{A example artwork consisting of black and white (and no gray) pixels on a grid.}
+\caption{A example artwork in the class of art we are considering.  This
+version of the Mona Lisa consists solely of black and white (and no gray)
+pixels on a grid, and can therefore be considered either as a picture, or as
+the output of a function of type {\tt int$\times$int$\to$bool} that maps
+integer grid positions to black and white truth values.}
 \label{fig:monalisa}
 \end{figure}
 
-This isomorphism between functions of type {\tt int$\times$int$\to$bool} and
-black and white artworks is the basis of our work, as it allows us to ask
-people about the perceived visual complexity of an artwork, and to ``ask''
-computers about the complexity of the corresponding functions.  In order to
-make our problems computationally tractable, we restrict our purview to
-artworks that are nine pixels laid out in a three by three grid.  This allows
-us to generate all artworks (of which there are $2^9=512$), and also, less
-trivially, to enumerate all possible formulae in an effort to calculate the
-formula complexity of each artwork.
+This isomorphism between the output of functions of type {\tt
+int$\times$int$\to$bool} and black and white artworks is the basis of our work,
+as it allows us to ask people about the perceived visual complexity of an
+artwork, and to ``ask'' computers about the complexity of the corresponding
+functions.  In order to make our problems computationally tractable, we
+restrict our purview to artworks that are nine pixels laid out in a three by
+three grid.  This allows us to generate all artworks (of which there are
+$2^9=512$), and also, less trivially, to enumerate all possible formulae in an
+effort to calculate the formula complexity of each artwork.
 
 \section*{Formula Complexity}
 
@@ -116,16 +119,17 @@ of type {\tt int$\times$int$\to$bool} is not Turing-complete.  In particular,
 in formula complexity it is impossible to define and call functions, which
 prohibits looping and recursion.  Instead of the entirety of mathematical
 symbols, in formula complexity we restrict ourselves to just the symbols in the
-set \[\{\text{\tt +, *, 0, 1, x, y, true, false, not, and, or, <}\}.\] We also
-require that every expression be fully parenthesized, to eliminate any
-potential ambiguity of interpretation.  In each formula {\tt x} and {\tt y}
+set $\{\text{\tt +, *, 0, 1, x, y, true, false, not, and, or, <}\}$. To
+eliminate any potential ambiguity of interpretation we require that every
+expression be fully parenthesized.  In each formula {\tt x} and {\tt y}
 represent the coordinates of the grid point being interpreted.  
 
 Note that some formulae that our language can produce might make no sense.  For
-example, what is the value of {\tt (1 + false)}?  Furthermore, other formulae
-produced may make sense, but not be useful in our context.  For example, if our
-formula is {\tt (x + y)}, then what color should we make the pixel at $(1,0)$?
-Therefore, we place further restrictions on our formulae:
+example, the formula {\tt (1 + false)} requires adding a truth value to a
+number.  Furthermore, other formulae produced may make sense, but not be useful
+in our context because they do not evaluate to a truth value.  For example, if
+our formula is {\tt (x + y)}, then what color should we make the pixel at
+$(1,0)$?  Therefore, we place further restrictions on our formulae:
 \begin{enumerate}
 \item All formulae must be well-typed: numerical operations are only performed
 on numbers (or subexpressions which evaluate to a number) and logical operations
@@ -142,9 +146,17 @@ preliminaries are decided, we can define formula complexity.
 artwork is the number of symbols used in the smallest formula which produces
 that artwork when evaluated at each point on the grid.  
 
-Some example artworks,
-along with their formula complexity and the corresponding formula of minimum
-size may be seen in Figure~\ref{fig:artexamples}. 
+
+We wrote a program to generate all well-typed formulae in order of size, and
+then tested each formula as it was generated in order to determine if it was
+the first formula to produce its corresponding picture.  We ran our program for
+months, but were only able to generate the formulae up to size 17 due to the
+extremely large number of formulae and the super-exponential explosion in
+formula count as formula size grows.  
+Example artworks, along with their formula complexity and the corresponding formula of minimum
+size, may be seen in Figure~\ref{fig:artexamples}. 
+Figure~\ref{fig:allthe3x3} contains a complete diagram of all artworks with
+their corresponding formula complexity.
 
 \begin{figure}
 \begin{tabular}{cp{.75in}r}
@@ -159,14 +171,6 @@ Artwork & Formula Complexity & Formula of minimum size \\
 \label{fig:artexamples}
 \end{figure}
 
-We wrote a program to generate all well-typed formulae in order of size, and
-then tested each formula as it was generated in order to determine if it was
-the first formula to produce its corresponding picture.  We ran our program for
-months, but were only able to generate the formulae up to size 17 due to the
-extremely large number of formulae and the super-exponential explosion in
-formula count as formula size grows.  A complete diagram of all artworks with
-their corresponding formula complexity may be seen in
-Figure~\ref{fig:allthe3x3}.
 
 \begin{figure}
 \begin{center}
@@ -190,13 +194,12 @@ them to click on the artwork that was more visually complex.  After they
 clicked on one artwork, we presented them with another, and another, until
 they decided for themselves to stop taking our survey.
 
-Our task was then to distill these ratings into a ranking of visual complexity.
-We did this by treating each survey response as a ``game result'' between the
-two artworks and then turned the win-loss record of each artwork into a
+To turn these pairwise comparisons into a rating of complexity,
+we treated each survey response as a ``game result'' between the
+two artworks. We turned the win-loss record of each artwork into a
 strength rating using the TrueSkill algorithm\cite{trueskill}, which is a
 rating system similar to the one used in chess but with provably better
-convergence times\footnote{The TrueSkill algorithm was developed at Microsoft
-and is currently used to rank players in XBox Live.}.
+convergence times.
 
 \section*{Comparing Complexity Results}
 
@@ -221,53 +224,51 @@ measurements is $.55$ and the p-value is $4\cdot10^{-39}$.}
 
 When we calculate Pearson's correlation coefficient, we get a correlation of
 $.55$ and a very low p-value of $4\cdot10^{-39}$, which implies that it is safe
-to reject the null hypothesis that these two distributions have nothing to do
-with one another.  After rejecting the null hypothesis we can safely conclude
-that, for small digital artworks, visual complexity is positively correlated
-with formula complexity!  
+to reject the null hypothesis.  Therefore, we conclude that, for small digital
+artworks, visual complexity is positively correlated with formula complexity!  
 
 \section*{Conclusion and Future Work}
 
 We defined a class of art that is explicable by both humans and computers.  We
 also defined a ``powered down'' version of Kolmogorov complexity which we
-called formula complexity and calculated the formula complexity of all 3x3
-artworks.  We then took survey results where we asked people to compare these
-artworks to each other and choose the one that is most complex, and we assigned
-a complexity rating to each artwork based on the number of comparisons it won
-and the strength of the artworks it beat.  We then showed that these two, very
-different, complexity measures are actually highly correlated.  From all this,
-we conclude that, for small digital artworks, humans and computers agree
-about what is complex and what is simple!
+called formula complexity and then calculated the formula complexity of all 3x3
+artworks.  We asked people to compare artworks to each other and choose the one
+that is most visually complex, and we assigned a complexity rating to each
+artwork based on the number of comparisons it won and the strength of the
+artworks it beat.  We then showed that these two, very different, complexity
+measures are correlated.  From all this, we conclude that, for small digital
+artworks, humans and computers agree about what is complex and what is simple!
 
 The future work we lay out is related to the limits of both of our complexity
 surveys, potential ways of increasing the power of our computer complexity
 measure, and a search for a computer complexity measure that comes even closer
 to the human one.
 
-Our computational survey was unfortunately limited by available machine power.
+The computational survey was limited by available machine power.
 It may be fruitful to run this computation again in a few years once transistor
-density has increased again.  Perhaps future programmers could find the formula
-complexity of all of the small artworks!
+density has increased.  Perhaps future programmers could find the formula
+complexity of all of the small artworks.
 
 Our human survey was limited to college students and Twitter friends.  Because
-we are computer scientists, it is likely that the college students and Twitter
-users we know are not representative of the population at large.  Does this
-correlation increase as when people take computer science classes?  Are we only
-seeing a correlation because we surveyed people who had taken CS classes? 
+we are computer scientists, it is likely that the college students and
+Twitter users we surveyed are not representative of the population at large.
+Are we only seeing a correlation because we mostly surveyed people who had
+taken CS classes? 
 
-Our complexity measure of formula complexity was partly driven by expediency
-and explicability.  Other areas of math and CS have developed programming
-languages and formula schema that allow for richer expressions than we have
-here.  For example, it might be interesting to replicate this result using the
-simply-typed lambda calculus, which allows function definition and just forbids
-recursion.  For another example, it might be interesting to replicate this
-result using Levin complexity, which is even closer to Kolmogorov complexity!
+Other areas of math and CS have developed programming languages and formula
+schema that allow for richer expressions. It might be interesting to try and
+replicate this result using the simply-typed lambda calculus, which allows
+function definition and just forbids recursion.  It may also be interesting to
+try and replicate this result using Levin complexity, which is even closer to
+Kolmogorov complexity.
 
 Finally, and most interestingly, it could be quite fruitful to search for the
 set of atoms which provide for a formula complexity that maximally matches the
 measured visual complexity.  The discovery of this set of atoms would
 potentially have deep implications for understanding how human brains perceive
-the world.
+the world!  All of our code and data is freely available
+online\footnote{\url{https://github.com/JLangke/KComplexity}} if anyone would
+like to build upon it.
 
 \bibliography{bibliography} 
 \end{document}

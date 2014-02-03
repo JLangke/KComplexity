@@ -80,7 +80,7 @@ numbers = {}
 #size += 1 #assume the data in 'data' is complete for each level
 size = 1
 
-rackets = [ start_racket() for i in range(7) ]
+rackets = [ start_racket() for i in range(11) ]
 
 while len(numbers) < 2**(width*height):
 	print "Generating size", size

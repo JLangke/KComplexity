@@ -6,4 +6,4 @@ set ylabel "Formula complexity"
 unset key
 f(x) = m*x + b
 fit f(x) '3x3.dat' using 3:2 via m,b
-plot '3x3.dat' using ($3+rand(0)/2-.25):($2+rand(0)/2-.25), f(x)
+plot '3x3.dat' using ($3+rand(0)/2-.5):($2+rand(0)/2-.5) pt 3, f(x) lw 5 lc 3
