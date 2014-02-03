@@ -10,6 +10,6 @@ term.  We used these comparisons to assign every artwork a strength rating
 well correlated with the formula complexity of the artworks.  Therefore,
 computers and humans largely agree on the complexity of small artworks!
 
-Our paper may be seen in the paper/ directory, and a presentation given at the
+Our paper (currently under submission) may be seen in the [paper/](paper/) directory, and a presentation given at the
 Spuyten Duyvil Undergraduate mathematics conference may be found in the
-presentation/ directory.
+[presentation/](presentation/) directory.
