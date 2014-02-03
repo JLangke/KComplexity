@@ -1,10 +1,15 @@
 KComplexity
 ===========
 
-A study of the Kolmogorov complexity of small works of art. We generate all small works of art (keeping track of the Kolmogorov complexity of each), and then we ask people to rate each artwork's visual complexity.
+Restricting our purview to black and white digital artworks on a grid, we
+developed a lower-power version of Kolmogorov complexity, and then we found the
+complexity of every piece of 3x3 art.  We also asked people to compare two
+artworks and decide which one was more visually complex as they understood the
+term.  We used these comparisons to assign every artwork a strength rating
+(similar to a chess rating), and we found that the human-generated ratings were
+well correlated with the formula complexity of the artworks.  Therefore,
+computers and humans largely agree on the complexity of small artworks!
 
-Our work was done using Racket and MiniKanren.  We have included a presentation of our initial results, and are working on a paper.
-
-By Tuesday: Peter will have implemented an intial version of the visual complexity survey
-
-By Tuesday: Jonathan will have pushed to github from his own computer, and have added a discussion of the 2x2 art to the article.
+Our paper may be seen in the paper/ directory, and a presentation given at the
+Spuyten Duyvil Undergraduate mathematics conference may be found in the
+presentation/ directory.
